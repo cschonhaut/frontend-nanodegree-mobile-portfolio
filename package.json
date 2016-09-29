@@ -2,6 +2,10 @@
   "name": "my-project-name",
   "version": "0.1.0",
   "devDependencies": {
-
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-responsive-images": "^0.1.9"
+  },
+  "dependencies": {
+    "grunt": "^1.0.1"
   }
 }
