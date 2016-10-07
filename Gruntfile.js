@@ -14,12 +14,12 @@ module.exports = function(grunt) {
     }
   });
 
-  // Load the plugin that provides the "uglify" task.
+  // Load the plugins
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-responsive-images');
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
-
-  grunt.loadNpmTasks('grunt-responsive-images');
+  grunt.registerTask('default', ['grunt-responsive-images']);
 
 };

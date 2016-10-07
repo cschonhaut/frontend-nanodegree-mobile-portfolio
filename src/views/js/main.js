@@ -447,29 +447,20 @@ var resizePizzas = function(size) {
     return dx;
   }
 
-  // Iterates through pizza elements on the page and changes their widths
-  function changePizzaSizes(size) {
-
-  // NEW API function - Removed 2 var lines from inside the "for" statement. Changed "i" to "0", because "i" was no longer defined since it was outside the for statement.
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[0], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[0].offsetWidth + dx) + 'px';
-
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+      function changePizzaSizes(size) {
+    var pizzas = document.getElementsByClassName("randomPizzaContainer");
+    var length = pizzas.length;
+    var dx = determineDx(pizzas[0], size);
+    var newwidth = (pizzas[0].offsetWidth + dx) + 'px';
+    var i;
+    for (i = 0; i < length; i++) {
+      pizzas[i].style.width = newwidth;
     }
-
-/* Original API function
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
-    }
-*/
   }
 
   changePizzaSizes(size);
 
-  // User Timing API is awesome
+  // User Timing API
   window.performance.mark("mark_end_resize");
   window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
   var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
@@ -478,7 +469,7 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
-// This for-loop actually creates and appends all of the pizzas when the page loads
+// This for loop creates and appends all of the pizzas when the page loads
 for (var i = 2; i < 100; i++) {
   var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
@@ -508,13 +499,22 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+// THIS NEEDS TO BE FIXED
+
+var items = document.getElementsByClassName('mover');
+
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  var scrollPosition = document.body.scrollTop / 1250;
+
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+
+    var phase = Math.sin((scrollPosition) + (i % 5));
+    //console.log(phase, document.body.scrollTop / 1250)
+    // Using style.left is there a more efficient way to change the position of this object?
+    // Offload the CPU and use CSS 'transform' property
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -535,6 +535,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  // clearly 200 pizzas do not need to be animated here, you can do much less.
+  //for (var i = 0; i < 200; i++) {
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
