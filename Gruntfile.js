@@ -3,23 +3,49 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    uglify: {
+    uglify: { 
+      options: { 
+        mangle: false 
+      }, 
+      my_target: { 
+          files:{ 
+            'dest/output.min.js': ['src/js/**.js'], 
+          }
+      } 
+    } ,
+    cssmin: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        shorthandCompacting: false,
+        roundingPrecision: -1,
+        expand: true
       },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+      target: {
+        files: {
+          'dest/output.min.css': ['src/css/**.css']
+        }
       }
+    },
+    imagemin: {
+      dest: {
+      options: {
+        optimizationLevel: 5
+      },
+        files: [{
+          expand: true,
+          cwd: 'src/img',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'img/'
+        }]
     }
+}
   });
 
-  // Load the plugins
+// Load the plugins
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-responsive-images');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-critical');
+  //grunt.loadNpmTasks('grunt-responsive-images-converter');
+  grunt.registerTask('default', ['uglify', 'cssmin']);
+ };
 
-  // Default task(s).
-  grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('default', ['grunt-responsive-images']);
-
-};
