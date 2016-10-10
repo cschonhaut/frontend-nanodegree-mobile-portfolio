@@ -1,22 +1,10 @@
-/*
-Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
-jank-free at 60 frames per second.
+//http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
 
-There are two major issues in this code that lead to sub-60fps performance. Can
-you spot and fix both?
+// Creator:
+// Cameron Pittman, Udacity Course Developer
+// cameron *at* udacity *dot* com
+// */
 
-
-Built into the code, you'll find a few instances of the User Timing API
-(window.performance), which will be console.log()ing frame rate data into the
-browser console. To learn more about User Timing API, check out:
-http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
-Creator:
-Cameron Pittman, Udacity Course Developer
-cameron *at* udacity *dot* com
-*/
-
-// As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
 var pizzaIngredients = {};
 pizzaIngredients.meats = [
@@ -499,7 +487,6 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-// THIS NEEDS TO BE FIXED
 
 var items = document.getElementsByClassName('mover');
 
@@ -512,14 +499,10 @@ function updatePositions() {
   for (var i = 0; i < items.length; i++) {
 
     var phase = Math.sin((scrollPosition) + (i % 5));
-    //console.log(phase, document.body.scrollTop / 1250)
-    // Using style.left is there a more efficient way to change the position of this object?
-    // Offload the CPU and use CSS 'transform' property
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
-  // User Timing API to the rescue again. Seriously, it's worth learning.
-  // Super easy to create custom metrics.
+  // User Timing API
   window.performance.mark("mark_end_frame");
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
   if (frame % 10 === 0) {
@@ -535,8 +518,6 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  // clearly 200 pizzas do not need to be animated here, you can do much less.
-  //for (var i = 0; i < 200; i++) {
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
