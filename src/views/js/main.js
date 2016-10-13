@@ -436,6 +436,8 @@ var resizePizzas = function(size) {
   }
 
       function changePizzaSizes(size) {
+        // Moved these variables outside of the loop for faster results
+        // Selected via class name rather than "querySelectorAll" - more specifix, which yields less results and faster load time
     var pizzas = document.getElementsByClassName("randomPizzaContainer");
     var length = pizzas.length;
     var dx = determineDx(pizzas[0], size);
@@ -487,17 +489,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-
+// Using getElementsByClassName is more specific, so it will generate less results and thus will help with speed
+// We are accessing the DOM outside the loop here rather than inside, with a faster DOM selector
 var items = document.getElementsByClassName('mover');
 
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
   var scrollPosition = document.body.scrollTop / 1250;
 
   for (var i = 0; i < items.length; i++) {
-
     var phase = Math.sin((scrollPosition) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
