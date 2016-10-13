@@ -14,7 +14,13 @@ To complete this project I had to configure a Grunt workflow, which was very ted
 ###My optimizations:
 In order to view my page speed insights score, you can reference my GH page in my branch on Git, or reference this link: https://cschonhaut.github.io/frontend-nanodegree-mobile-portfolio/
 
+For the changePizzaSizes function, I moved some variables outside of the loop in order to load faster. I also used a more specific calling mechanism (getElementsByClassName). The more specific call produces fewer results, leading to faster load time.
 
+The optimizations I made to the updatePositions function were very similar. I used a more specific calling mechanism again, and I made sure to access the DOM outside the loop instead of inside (as the original).
+
+My scroll time is an average of about a millisecond, well beneath the goal of 16ms in order to achieve 60/fps
+The time it takes to resize the pizzas is consistently under 2ms
+My pagspeed insights score on mobile is 95, and on desktop is 94!
 
 ### Customization with Bootstrap
 The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
